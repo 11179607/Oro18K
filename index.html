@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Destello de Oro 18K</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  Destello de Oro 18K
+</header>
+
+<main id="loginSection">
+  <h2>Iniciar Sesión</h2>
+  <input type="text" id="username" placeholder="Ingrese su Usuario o NIT Empresarial" />
+  <select id="role">
+    <option value="admin">Administrador</option>
+    
+  </select>
+  <button onclick="login()">Entrar</button>
+</main>
+
+<main id="appSection" style="display: none;">
+  <section>
+    <h2>Inventario de Productos</h2>
+    <input type="text" id="searchInput" placeholder="Buscar producto..." />
+    <table id="inventoryTable">
+      <thead>
+        <tr style="border-bottom: 1px solid #ccc;"></tr>
+          <th>Referencia</th>
+          <th>Producto</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button onclick="logout()" id="logoutBtn" style="position: absolute; top: 120px; right: 40px; z-index: 10;">Cerrar Sesión</button>
+  </section>
+
+  <section id="addSection">
+    <h2>Agregar Nuevo Producto</h2>
+    <input type="text" id="newProductRef" placeholder="Referencia del producto" />
+    <input type="text" id="newProductName" placeholder="Nombre del producto" />
+    <input type="text" id="newProductCategory" placeholder="Categoría" />
+    <input type="number" id="newProductPrice" placeholder="Precio" />
+    <input type="number" id="newProductQty" placeholder="Cantidad inicial" />
+    <button onclick="addProduct()">Agregar</button>
+  </section>
+
+  <section id="sellSection">
+    <h2>Registrar Venta</h2>
+    <input type="text" id="sellProductRef" placeholder="Referencia del producto" />
+    <input type="number" id="sellProductQty" placeholder="Cantidad vendida" />
+    <input type="text" id="clientName" placeholder="Nombre del cliente" />
+    <button onclick="sellProduct()">Registrar Venta</button>
+  </section>
+
+  <section id="restockSection">
+    <h2>Surtir Inventario</h2>
+    <input type="text" id="restockProductRef" placeholder="Referencia del producto" />
+    <input type="number" id="restockProductQty" placeholder="Cantidad a agregar" />
+    <button onclick="restockProduct()">Surtir</button>
+  </section>
+
+  <section>
+    <h2>Historial de Movimientos</h2>
+    <ul id="historyLog" class="history-log"></ul>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    color: #3a2c13;
+}
+
+header {
+    background: rgba(255, 215, 0, 0.92);
+    color: #3a2c13;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 8px rgba(60, 40, 10, 0.15);
+    border-bottom: 3px solid #bfa14a;
+    font-family: 'Georgia', serif;
+}
+
+main {
+    background: rgba(255, 255, 255, 0.93);
+    max-width: 600px;
+    margin: 2rem auto 2rem auto;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(60, 40, 10, 0.13);
+    padding: 2rem 2.5rem;
+}
+
+h2 {
+    color: #bfa14a;
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    letter-spacing: 1px;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border: 1.5px solid #bfa14a;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fffbe6;
+    color: #3a2c13;
+    transition: border 0.2s;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #ffd700;
+    background: #fff8d0;
+}
+
+button {
+    background: linear-gradient(90deg, #ffd700 0%, #bfa14a 100%);
+    color: #3a2c13;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(191, 161, 74, 0.15);
+    transition: background 0.2s, transform 0.1s;
+    margin-bottom: 1rem;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #ffe066 0%, #bfa14a 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background: #fffbe6;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(191, 161, 74, 0.08);
+}
+
+#inventoryTable th, #inventoryTable td {
+    padding: 0.8rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #e6d8b8;
+    font-size: 1rem;
+}
+
+#inventoryTable th {
+    background: #ffe066;
+    color: #3a2c13;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+#inventoryTable tr:last-child td {
+    border-bottom: none;
+}
+
+.history-log {
+    background: #fffbe6;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 1px 4px rgba(191, 161, 74, 0.07);
+    font-size: 0.98rem;
+    color: #3a2c13;
+    list-style: disc inside;
+}
+
+@media (max-width: 700px) {
+    main {
+        max-width: 98vw;
+        padding: 1rem 0.5rem;
+    }
+    header {
+        font-size: 1.5rem;
+        padding: 1rem 0;
+    }
+}
+</style>
+<script>
+// Generador de fondo interactivo de joyas flotantes
+const jewelColors = [
+    "#FFD700", // oro
+    "#C0C0C0", // plata
+    "#B87333", // cobre
+    "#E5C100", // amarillo intenso
+    "#F5F3CE", // perla
+    "#B9F2FF", // diamante azul
+    "#FF69B4", // rosa
+    "#A020F0"  // amatista
+];
+
+function randomBetween(a, b) {
+    return a + Math.random() * (b - a);
+}
+
+function createJewel(ctx, w, h) {
+    const size = randomBetween(18, 38);
+    const x = randomBetween(0, w - size);
+    const y = randomBetween(0, h - size);
+    const color = jewelColors[Math.floor(Math.random() * jewelColors.length)];
+    const speed = randomBetween(0.15, 0.5);
+    const shape = Math.random() > 0.5 ? "circle" : "diamond";
+    const rotate = randomBetween(0, Math.PI * 2);
+    return { x, y, size, color, speed, shape, rotate, drift: randomBetween(-0.2, 0.2) };
+}
+
+function drawJewel(ctx, jewel) {
+    ctx.save();
+    ctx.translate(jewel.x + jewel.size/2, jewel.y + jewel.size/2);
+    ctx.rotate(jewel.rotate);
+    ctx.globalAlpha = 0.82;
+    ctx.shadowColor = jewel.color;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    if (jewel.shape === "circle") {
+        ctx.arc(0, 0, jewel.size/2, 0, 2 * Math.PI);
+    } else {
+        ctx.moveTo(0, -jewel.size/2);
+        ctx.lineTo(jewel.size/2, 0);
+        ctx.lineTo(0, jewel.size/2);
+        ctx.lineTo(-jewel.size/2, 0);
+        ctx.closePath();
+    }
+    ctx.fillStyle = jewel.color;
+    ctx.fill();
+    ctx.restore();
+}
+
+function animateJewels() {
+    const canvas = document.getElementById("jewel-bg");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    ctx.clearRect(0, 0, w, h);
+    for (const jewel of window._jewels) {
+        jewel.y -= jewel.speed;
+        jewel.x += jewel.drift;
+        jewel.rotate += 0.003 * (jewel.drift > 0 ? 1 : -1);
+        if (jewel.y + jewel.size < 0) {
+            Object.assign(jewel, createJewel(ctx, w, h));
+            jewel.y = h + jewel.size;
+        }
+        drawJewel(ctx, jewel);
+    }
+    requestAnimationFrame(animateJewels);
+}
+
+function setupJewels() {
+    let canvas = document.createElement("canvas");
+    canvas.id = "jewel-bg";
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+    canvas.style.zIndex = "-1";
+    canvas.style.pointerEvents = "none";
+    document.body.prepend(canvas);
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const jewelCount = Math.max(18, Math.floor(w * h / 25000));
+    window._jewels = [];
+    for (let i = 0; i < jewelCount; i++) {
+        window._jewels.push(createJewel(canvas.getContext("2d"), w, h));
+    }
+    animateJewels();
+    window.addEventListener("resize", () => {
+        window._jewels = [];
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const jewelCount = Math.max(18, Math.floor(w * h / 25000));
+        for (let i = 0; i < jewelCount; i++) {
+            window._jewels.push(createJewel(canvas.getContext("2d"), w, h));
+        }
+    });
+}
+
+window.addEventListener("DOMContentLoaded", setupJewels);
+</script>
+<style>
+body {
+        background: none !important;
+}
+#jewel-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+}
+</style>

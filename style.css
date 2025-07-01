@@ -1,0 +1,99 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: url('https://images.unsplash.com/photo-1606312619344-0c3f3c2c4a6e?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  background-size: cover;
+  color: #4e342e;
+  margin: 0;
+  padding: 20px;
+  backdrop-filter: brightness(0.95);
+}
+
+header {
+  text-align: center;
+  background-color: rgba(255, 215, 0, 0.9);
+  padding: 20px;
+  font-size: 2em;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+section {
+  margin: 30px 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 5px;
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid #a1887f;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+button {
+  background-color: #ffd700;
+  border: none;
+  color: #4e342e;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e6be00;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid #a1887f;
+}
+
+th {
+  background-color: #f5f5dc;
+  color: #4e342e;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+.low-stock {
+  background-color: #ffebee;
+  color: #c62828;
+  font-weight: bold;
+}
+
+.history-log {
+  font-size: 0.9em;
+  color: #5d4037;
+  list-style-type: square;
+  padding-left: 20px;
+}
+body {
+  border: 10px solid red;
+}
