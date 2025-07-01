@@ -38,7 +38,42 @@
       </thead>
       <tbody></tbody>
     </table>
-    <button onclick="logout()" id="logoutBtn" style="position: absolute; top: 120px; right: 40px; z-index: 10;">Cerrar Sesión</button>
+    <button id="logoutBtn" style="float: right; margin-bottom: 1.5rem;" onclick="logout()">Cerrar Sesión</button>
+    <script>
+    function logout() {
+        document.getElementById('appSection').style.display = 'none';
+        document.getElementById('loginSection').style.display = '';
+        // Limpia campos si es necesario
+    }
+    </script>
+    <style>
+    #logoutBtn {
+        background: linear-gradient(90deg, #ffd700 0%, #bfa14a 100%);
+        color: #3a2c13;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        padding: 0.7rem 1.5rem;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(191, 161, 74, 0.15);
+        transition: background 0.2s, transform 0.1s;
+        margin-left: auto;
+        display: block;
+    }
+    #logoutBtn:hover {
+        background: linear-gradient(90deg, #ffe066 0%, #bfa14a 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    @media (max-width: 700px) {
+        #logoutBtn {
+            width: 100%;
+            float: none;
+            margin-bottom: 1.2rem;
+            margin-left: 0;
+        }
+    }
+    </style>
   </section>
 
   <section id="addSection">
