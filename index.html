@@ -21,6 +21,7 @@
   </select>
   <button onclick="login()">Entrar</button>
 </main>
+<button id="logoutBtn" style="float: right; margin-bottom: 0.5rem; padding: 0.4rem 1rem; font-size: 0.95rem; width: auto; min-width: 0;" onclick="logout()">Cerrar Sesión</button>
 
 <main id="appSection" style="display: none;">
   <section>
@@ -38,7 +39,15 @@
       </thead>
       <tbody></tbody>
     </table>
-    <button id="logoutBtn" style="float: right; margin-bottom: 1.5rem;" onclick="logout()">Cerrar Sesión</button>
+    <section id="expensesSection">
+  <h2>Gastos en Materiales</h2>
+  <input type="text" id="expenseDescription" placeholder="Descripción del gasto (ej. bolsas, etiquetas...)" />
+  <input type="number" id="expenseAmount" placeholder="Valor del gasto" />
+  <button onclick="addExpense()">Registrar Gasto</button>
+  <ul id="expenseLog" class="history-log"></ul>
+  <p id="totalExpenses" style="font-weight: bold; margin-top: 10px;"></p>
+</section>
+    
     <script>
     function logout() {
         document.getElementById('appSection').style.display = 'none';
@@ -357,6 +366,3 @@ body {
         pointer-events: none;
 }
 </style>
-<footer style="text-align:center; color:#bfa14a; font-family:Georgia,serif; margin-bottom:1rem; font-size:1rem;">
-    &copy; 2025 Destello de Oro 18K. Todos los derechos reservados.
-</footer>
