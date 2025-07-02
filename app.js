@@ -1,3 +1,4 @@
+let expenses = [];
 let inventory = {};
 let history = [];
 let currentUser = null;
@@ -31,7 +32,17 @@ function login() {
       document.getElementById("restockSection").style.display = "none";
     }
     loadData();
+    loadExpenses();
   }
+}
+
+function logout() {
+  currentUser = null;
+  inventory = {};
+  history = [];
+  document.getElementById("appSection").style.display = "none";
+  document.getElementById("loginSection").style.display = "block";
+  document.getElementById("username").value = "";
 }
 
 function updateInventoryTable() {
@@ -102,45 +113,112 @@ function sellProduct() {
   const qty = parseInt(document.getElementById("sellProductQty").value);
   const client = document.getElementById("clientName").value.trim();
 
-  if (inventory[ref] && qty > 0 && inventory[ref].qty >= qty) {
-    inventory[ref].qty -= qty;
-    const total = qty * inventory[ref].price;
-    const product = inventory[ref].name;
-
-    history.push({
-      time: new Date().toLocaleString(),
-      action: `Venta: ${qty} de ${product} a ${client} por $${total.toFixed(2)} [Ref: ${ref}]`,
-    });
-
-    saveData();
-    updateInventoryTable();
-    updateHistoryLog();
-
-    const factura = `
-      <html>
-        <head><title>Factura</title></head>
-        <body>
-          <h2>Factura de Venta</h2>
-          <p><strong>Cliente:</strong> ${client}</p>
-          <p><strong>Producto:</strong> ${product}</p>
-          <p><strong>Cantidad:</strong> ${qty}</p>
-          <p><strong>Precio unitario:</strong> $${inventory[ref].price.toFixed(2)}</p>
-          <p><strong>Total:</strong> $${total.toFixed(2)}</p>
-          <p><strong>Fecha:</strong> ${new Date().toLocaleString()}</p>
-          <script>window.print()</script>
-        </body>
-      </html>
-    `;
-    const facturaWindow = window.open("", "_blank");
-    facturaWindow.document.write(factura);
-    facturaWindow.document.close();
-
-    document.getElementById("sellProductRef").value = "";
-    document.getElementById("sellProductQty").value = "";
-    document.getElementById("clientName").value = "";
-  } else {
-    alert("Referencia inválida o stock insuficiente.");
+  if (!inventory[ref]) {
+    alert("Referencia no encontrada.");
+    return;
   }
+
+  if (isNaN(qty) || qty <= 0) {
+    alert("Cantidad inválida.");
+    return;
+  }
+
+  if (inventory[ref].qty < qty) {
+    alert("Stock insuficiente.");
+    return;
+  }
+
+  if (!client) {
+    alert("Por favor ingresa el nombre del cliente.");
+    return;
+  }
+
+  inventory[ref].qty -= qty;
+  const unitPrice = inventory[ref].price;
+  const subtotal = qty * unitPrice;
+  const product = inventory[ref].name;
+
+  history.push({
+    time: new Date().toLocaleString(),
+    action: `Venta: ${qty} de ${product} a ${client} por $${subtotal.toFixed(2)} [Ref: ${ref}]`,
+  });
+
+  saveData();
+  updateInventoryTable();
+  updateHistoryLog();
+
+  const factura = `
+    <html>
+      <head>
+        <title>Factura</title>
+        <style>
+          @media print {
+            body {
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+          }
+          body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: url('https://images.unsplash.com/photo-1616627989394-6b6c1e4b2a3a?auto=format&fit=crop&w=1200&q=80') no-repeat center center;
+            background-size: cover;
+            color: #4e342e;
+          }
+          .factura-box {
+            background-color: rgba(255, 255, 255, 0.92);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            border: 2px solid #d4af37;
+          }
+          h2 {
+            color: #b8860b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+          }
+          p {
+            margin: 10px 0;
+            font-size: 1.1em;
+          }
+          .label {
+            font-weight: bold;
+            color: #6d4c41;
+          }
+          .total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #c2185b;
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="factura-box">
+          <h2>💎 Factura de Venta - Destello de Oro 18K</h2>
+          <p><span class="label">Cliente:</span> ${client}</p>
+          <p><span class="label">Producto:</span> ${product}</p>
+          <p><span class="label">Cantidad:</span> ${qty}</p>
+          <p><span class="label">Precio unitario:</span> $${unitPrice.toFixed(2)}</p>
+          <p class="total">Total: $${subtotal.toFixed(2)}</p>
+          <p><span class="label">Fecha:</span> ${new Date().toLocaleString()}</p>
+        </div>
+        <script>window.print()</script>
+      </body>
+    </html>
+  `;
+
+  const facturaWindow = window.open("", "_blank");
+  facturaWindow.document.write(factura);
+  facturaWindow.document.close();
+
+  document.getElementById("sellProductRef").value = "";
+  document.getElementById("sellProductQty").value = "";
+  document.getElementById("clientName").value = "";
 }
 
 function restockProduct() {
@@ -163,12 +241,53 @@ function restockProduct() {
   }
 }
 
-document.getElementById("searchInput").addEventListener("input", updateInventoryTable);
-function logout() {
-  currentUser = null;
-  inventory = {};
-  history = [];
-  document.getElementById("appSection").style.display = "none";
-  document.getElementById("loginSection").style.display = "block";
-  document.getElementById("username").value = "";
+document.get
+
+function saveExpenses() {
+  if (!currentUser) return;
+  localStorage.setItem(`expenses_${currentUser.username}`, JSON.stringify(expenses));
+}
+
+function loadExpenses() {
+  if (!currentUser) return;
+  const saved = localStorage.getItem(`expenses_${currentUser.username}`);
+  expenses = saved ? JSON.parse(saved) : [];
+  updateExpenseLog();
+}
+
+function addExpense() {
+  const desc = document.getElementById("expenseDescription").value.trim();
+  const amount = parseFloat(document.getElementById("expenseAmount").value);
+  if (!desc || isNaN(amount) || amount <= 0) {
+    alert("Por favor ingresa una descripción y un valor válido.");
+    return;
+  }
+
+  expenses.push({
+    time: new Date().toLocaleString(),
+    description: desc,
+    amount: amount
+  });
+
+  saveExpenses();
+  updateExpenseLog();
+
+  document.getElementById("expenseDescription").value = "";
+  document.getElementById("expenseAmount").value = "";
+}
+
+function updateExpenseLog() {
+  const log = document.getElementById("expenseLog");
+  const totalDisplay = document.getElementById("totalExpenses");
+  log.innerHTML = "";
+
+  let total = 0;
+  expenses.slice().reverse().forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = `[${entry.time}] ${entry.description} - $${entry.amount.toFixed(2)}`;
+    log.appendChild(li);
+    total += entry.amount;
+  });
+
+  totalDisplay.textContent = `Total de gastos: $${total.toFixed(2)}`;
 }
