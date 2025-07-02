@@ -199,7 +199,7 @@ function sellProduct() {
       </head>
       <body>
         <div class="factura-box">
-          <h2>💎 Factura de Venta - Destello de Oro 18K</h2>
+          <h2>💎Factura de Venta-Destello de Oro 18K💎</h2>
           <p><span class="label">Cliente:</span> ${client}</p>
           <p><span class="label">Producto:</span> ${product}</p>
           <p><span class="label">Cantidad:</span> ${qty}</p>
