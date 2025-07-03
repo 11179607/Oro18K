@@ -195,6 +195,15 @@ function sellProduct() {
             color: #c2185b;
             margin-top: 20px;
           }
+          .gracias {
+            text-align: center;
+            font-size: 1.2em;
+            color: #b8860b;
+            font-weight: bold;
+            margin-top: 30px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px #fff, 0 0 8px #d4af37;
+          }
         </style>
       </head>
       <body>
@@ -206,6 +215,7 @@ function sellProduct() {
           <p><span class="label">Precio unitario:</span> $${unitPrice.toFixed(2)}</p>
           <p class="total">Total: $${subtotal.toFixed(2)}</p>
           <p><span class="label">Fecha:</span> ${new Date().toLocaleString()}</p>
+          <p class="gracias">✨ MUCHAS GRACIAS POR SU COMPRA ✨</p>
         </div>
         <script>window.print()</script>
       </body>
