@@ -291,3 +291,4 @@ function updateExpenseLog() {
 
   totalDisplay.textContent = `Total de gastos: $${total.toFixed(2)}`;
 }
+document.getElementById("searchInput").addEventListener("input", updateInventoryTable);
