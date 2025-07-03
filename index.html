@@ -23,7 +23,7 @@
 </main>
 
 <main id="appSection" style="display: none;">
-  <button id="logoutBtn" style="float: right; margin-bottom: 0.5rem; padding: 0.4rem 1rem; font-size: 0.95rem; width: auto; min-width: 0;" onclick="logout()">Cerrar Sesión</button>
+<button id="logoutBtn" style="float: right; margin-bottom: 0.5rem; padding: 0.4rem 1rem; font-size: 0.95rem; width: auto; min-width: 0;" onclick="logout()">Cerrar Sesión</button>
   <section>
     <h2>Inventario de Productos</h2>
     <input type="text" id="searchInput" placeholder="Buscar producto..." />
@@ -366,3 +366,31 @@ body {
         pointer-events: none;
 }
 </style>
+<script>
+// Oculta el botón de cerrar sesión en la pantalla de inicio de sesión
+document.addEventListener("DOMContentLoaded", function() {
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginSection = document.getElementById('loginSection');
+    const appSection = document.getElementById('appSection');
+    function updateLogoutBtnVisibility() {
+        if (loginSection.style.display === '' || loginSection.style.display === 'block') {
+            logoutBtn.style.display = 'none';
+        } else {
+            logoutBtn.style.display = '';
+        }
+    }
+    updateLogoutBtnVisibility();
+    // Asume que login() muestra appSection y oculta loginSection
+    window.login = function() {
+        loginSection.style.display = 'none';
+        appSection.style.display = '';
+        updateLogoutBtnVisibility();
+    };
+    window.logout = function() {
+        appSection.style.display = 'none';
+        loginSection.style.display = '';
+        updateLogoutBtnVisibility();
+        // Limpia campos si es necesario
+    };
+});
+</script>

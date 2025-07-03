@@ -162,7 +162,7 @@ function sellProduct() {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 40px;
-            background: url('https://images.unsplash.com/photo-1616627989394-6b6c1e4b2a3a?auto=format&fit=crop&w=1200&q=80') no-repeat center center;
+            background: url('WhatsApp Image 2025-07-01 at 15.59.33.jpeg') no-repeat center center;
             background-size: cover;
             color: #4e342e;
           }
@@ -199,7 +199,7 @@ function sellProduct() {
       </head>
       <body>
         <div class="factura-box">
-          <h2>💎Factura de Venta-Destello de Oro 18K💎</h2>
+          <h2>💎Factura de Venta - Destello de Oro 18K💎</h2>
           <p><span class="label">Cliente:</span> ${client}</p>
           <p><span class="label">Producto:</span> ${product}</p>
           <p><span class="label">Cantidad:</span> ${qty}</p>
